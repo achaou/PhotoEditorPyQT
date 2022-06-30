@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QLabel, QAction
     QScrollArea, QSizePolicy, QRubberBand , QInputDialog , QLineEdit)
 from PyQt5.QtCore import Qt, QSize, QRect
 from PyQt5.QtGui import QIcon, QPixmap, QImage, QTransform, QPalette, qRgb, QColor
+from sklearn.feature_extraction import img_to_graph
 from Stylesheet import style_sheet
 import math
 import cv2
@@ -106,6 +107,16 @@ class imageLabel(QLabel):
 
     def clearImage(self):
         """ """
+        self.image = QImage()
+        self.path=""
+        self.mat = self.image
+        self.original_image=self.image
+        self.setPixmap(QPixmap().fromImage(self.image))
+
+
+
+        
+        
         #TODO: If image is not null ask to save image first.
         pass
 
@@ -143,7 +154,8 @@ class imageLabel(QLabel):
                 self.image = QPixmap(imag)
                 self.setPixmap(QPixmap().fromImage(imag))
         else:
-            pass
+            QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
 
     def cropImage(self):
         """Crop selected portions in the image."""
@@ -153,6 +165,7 @@ class imageLabel(QLabel):
             cropped = original_image.copy(rect)
             self.image = QImage(cropped)
             self.setPixmap(QPixmap().fromImage(cropped))
+        
 
 
     def negatif(self):
@@ -173,6 +186,9 @@ class imageLabel(QLabel):
                     img.data, img.shape[1], img.shape[0],QImage.Format_Grayscale8)
             self.image = QPixmap(imag)
             self.setPixmap(QPixmap().fromImage(imag))
+        else :
+            QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
 
 
     def rotate(self):
@@ -195,7 +211,8 @@ class imageLabel(QLabel):
                 self.image = QPixmap(imag)        
                 self.setPixmap(QPixmap().fromImage(imag))
         else:
-            pass
+            QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
 
     def histo(self):
         if self.image != NULL:
@@ -203,7 +220,8 @@ class imageLabel(QLabel):
             o = ImageClass(image)
             o.hist()
         else:
-            pass
+            QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
 
     def egalisation(self):
         if self.image !=NULL:
@@ -211,12 +229,18 @@ class imageLabel(QLabel):
             imag = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             o = ImageClass(imag)
             img = o.histeq()
+            print(img.shape)  
+
+          
             imag =QImage(
                 img.data, img.shape[1], img.shape[0], QImage.Format_Grayscale8)
+            
+
             self.image = QPixmap(imag) 
             self.setPixmap(QPixmap().fromImage(imag))
         else : 
-            pass
+             QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
 
     def etir(self):
         if self.image!=NULL:
@@ -229,7 +253,8 @@ class imageLabel(QLabel):
             self.image = QPixmap(imag) 
             self.setPixmap(QPixmap().fromImage(imag))
         else:
-            pass
+            QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
 
     
 
@@ -255,7 +280,8 @@ class imageLabel(QLabel):
                 self.image = QPixmap(imag) 
                 self.setPixmap(QPixmap().fromImage(imag))
         else :
-            pass
+            QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
 
     def BinarisationOtsu(self):
         if self.image != NULL:
@@ -277,7 +303,8 @@ class imageLabel(QLabel):
             self.image = QPixmap(imag) 
             self.setPixmap(QPixmap().fromImage(imag))
         else : 
-            pass
+            QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
 
     def Moyenneur5(self):
         if self.image !=NULL:
@@ -295,7 +322,8 @@ class imageLabel(QLabel):
             self.image = QPixmap(imag) 
             self.setPixmap(QPixmap().fromImage(imag))
         else :
-            pass
+            QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
 
     def Moyenneur3(self):
         if self.image !=NULL:
@@ -313,7 +341,8 @@ class imageLabel(QLabel):
             self.image = QPixmap(imag) 
             self.setPixmap(QPixmap().fromImage(imag))
         else :
-            pass
+            QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
     
     def gaussian1(self):
         if self.image !=NULL:
@@ -331,7 +360,8 @@ class imageLabel(QLabel):
             self.image = QPixmap(imag) 
             self.setPixmap(QPixmap().fromImage(imag))
         else :
-            pass
+            QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
     
     def gaussian8(self):
         if self.image !=NULL:
@@ -349,7 +379,8 @@ class imageLabel(QLabel):
             self.image = QPixmap(imag) 
             self.setPixmap(QPixmap().fromImage(imag))
         else :
-            pass
+            QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
     
     def median3(self):
         if self.image !=NULL:
@@ -372,7 +403,8 @@ class imageLabel(QLabel):
             self.image = QPixmap(imag) 
             self.setPixmap(QPixmap().fromImage(imag))
         else :
-            pass
+            QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
 
     def median5(self):
         if self.image !=NULL:
@@ -395,7 +427,8 @@ class imageLabel(QLabel):
             self.image = QPixmap(imag) 
             self.setPixmap(QPixmap().fromImage(imag))
         else :
-            pass
+            QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
 
 
     def grad(self):
@@ -405,14 +438,14 @@ class imageLabel(QLabel):
             if byteValue == 3:
                 imag = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
                 c = ImageClass(imag)
-                img = c.grad(20)
+                img = c.grad()
                 self.mat = img
                 img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
                 imag = QImage(img, width, height, byteValue *
                                     width, QImage.Format_RGB888)
             else:
                 c = ImageClass(image)
-                img = c.grad(20)
+                img = c.grad()
                 self.mat = img
                 imag = QImage(
                     img.data, img.shape[1], img.shape[0],QImage.Format_Grayscale8)
@@ -420,7 +453,8 @@ class imageLabel(QLabel):
             self.image = QPixmap(imag) 
             self.setPixmap(QPixmap().fromImage(imag))
         else:
-            pass
+            QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
 
     def Sobel(self):
         if self.image != NULL:
@@ -430,21 +464,22 @@ class imageLabel(QLabel):
             if byteValue == 3:
                 imag = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
                 c = ImageClass(imag)
-                img = c.Sobel(50)
+                img = c.Sobel()
                 self.mat = img
                 img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
                 imag = QImage(img, width, height, byteValue *
                                     width, QImage.Format_RGB888)
             else:
                 c = ImageClass(image)
-                img = c.Sobel(50)
+                img = c.Sobel()
                 self.mat = img
                 imag =QImage(
                     img, img.shape[1], img.shape[0], QImage.Format_Grayscale8)
             self.image = QPixmap(imag) 
             self.setPixmap(QPixmap().fromImage(imag))
         else :
-            pass
+            QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
 
 
     def laplacien(self):
@@ -454,21 +489,22 @@ class imageLabel(QLabel):
             if byteValue == 3:
                 imag = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
                 c = ImageClass(imag)
-                img = c.Laplacien(20)
+                img = c.Laplacien()
                 self.mat = img
                 img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
                 imag = QImage(img, width, height, byteValue *
                                     width, QImage.Format_RGB888)
             else:
                 c = ImageClass(image)
-                img = c.Laplacien(20)
+                img = c.Laplacien()
                 self.mat = img
                 imag = QImage(
                     img, img.shape[1], img.shape[0], QImage.Format_Grayscale8)
             self.image = QPixmap(imag) 
             self.setPixmap(QPixmap().fromImage(imag))
         else:
-            pass
+            QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
 
 
     def Erosion(self):
@@ -496,6 +532,183 @@ class imageLabel(QLabel):
             self.setPixmap(QPixmap().fromImage(imag))
         else :
             pass
+
+
+    def Robert(self):
+            if self.image != NULL:
+                image = cv2.imread(self.path)
+                height, width, byteValue = image.shape
+                print(byteValue)
+                if byteValue == 3:
+                    imag = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+                    c = ImageClass(imag)
+                    img = c.Robert()
+                    self.mat = img
+                    img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+                    imag = QImage(img, width, height, byteValue *
+                                        width, QImage.Format_RGB888)
+                else:
+                    c = ImageClass(image)
+                    img = c.Robert()
+                    self.mat = img
+                    imag =QImage(
+                        img, img.shape[1], img.shape[0], QImage.Format_Grayscale8)
+                self.image = QPixmap(imag) 
+                self.setPixmap(QPixmap().fromImage(imag))
+            else :
+                QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
+
+    def Kmeans(self):
+            if self.image != NULL:
+                name, okPressed=QInputDialog.getText(self, "parametres","seuil", QLineEdit.Normal, "")
+                if okPressed and name!=NULL:
+                    image = cv2.imread(self.path)
+                    height, width, byteValue = image.shape
+                    print(byteValue)
+                    if byteValue == 3:
+                        print("hey")
+                        
+                        imag = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+                        c = ImageClass(imag)
+                        img = c.segmKmeans(int(name))
+                        self.mat = img
+                        plt.figure
+                        plt.imshow(img , cmap="gray")
+                        plt.show()
+                        
+                        # img = cv2.cvtColor(img,cv2.COLOR_GRAY2RGB)
+                        # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                        # imag = QImage(img, width, height, byteValue *
+                        #                 width, QImage.Format_RGB888)
+                        imag =QImage(
+                            img, img.shape[1], img.shape[0], QImage.Format_Grayscale8)
+                        
+
+                        
+                        
+                    else:
+                        print("hey2")
+                        c = ImageClass(image)
+                        img = c.segmKmeans(int(name))
+                        self.mat = img
+                        imag =QImage(
+                            img, img.shape[1], img.shape[0], QImage.Format_Grayscale8)
+                    self.image = QPixmap(imag) 
+                    self.setPixmap(QPixmap().fromImage(imag))   
+             
+            else :
+                QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
+
+
+    def GrowingReg(self):
+        if self.image != NULL:
+            image = cv2.imread(self.path)
+            height, width, byteValue = image.shape
+            print(byteValue)
+            if byteValue == 3:
+                m = ImageClass(image)
+                img = m.Growing()
+                self.mat = img
+                print(img.shape)
+                
+                imag = QImage(img, width, height, byteValue *
+                                        width, QImage.Format_RGB888)
+            else:
+                m = ImageClass(image)
+                img= m.Growing()
+                self.mat = img
+                
+                imag =QImage(
+                    img, img.shape[1], img.shape[0], QImage.Format_Grayscale8)
+            self.image = QPixmap(imag) 
+            self.setPixmap(QPixmap().fromImage(imag))   
+        else:
+            pass 
+
+
+    def PartitionS(self):
+            if self.image != NULL:
+                image = cv2.imread(self.path)
+                height, width, byteValue = image.shape
+                print(byteValue)
+                if byteValue == 3:
+                    m = ImageClass(image)
+                    img = m.segmenation_Part_region()
+                    self.mat = img
+                    print(img.shape)
+                    imag =QImage(
+                            img, img.shape[1], img.shape[0], QImage.Format_Grayscale8)
+                else:
+                    m = ImageClass(image)
+                    img= m.segmenation_Part_region()
+                    self.mat = img
+                    
+                    imag =QImage(
+                        img, img.shape[1], img.shape[0], QImage.Format_Grayscale8)
+                self.image = QPixmap(imag) 
+                self.setPixmap(QPixmap().fromImage(imag))   
+            else:
+                pass 
+
+
+
+    def Houg(self):
+        if self.image != NULL:
+            image = cv2.imread(self.path)
+            height, width, byteValue = image.shape
+            print(byteValue)
+            if byteValue == 3:
+                m = ImageClass(image)
+                img , resp= m.Hough()
+                if resp != "success":
+                     QMessageBox.about(self, "Exception", 
+                             resp)
+                    
+                self.mat = img
+                print(img.shape)
+                
+                imag = QImage(img, width, height, byteValue *
+                                        width, QImage.Format_RGB888)
+   
+            else:
+                m = ImageClass(image)
+                img  , resp = m.Hough()
+                if resp != "success":
+                     QMessageBox.about(self, "Exception", 
+                             resp)
+                self.mat = img 
+                mag =QImage(
+                    img, img.shape[1], img.shape[0], QImage.Format_Grayscale8)
+            self.image = QPixmap(imag) 
+            self.setPixmap(QPixmap().fromImage(imag)) 
+
+   
+        else:
+            pass 
+                
+    def HoughC(self):
+        if self.image != NULL:
+                image = cv2.imread(self.path,0)
+          
+                m = ImageClass(image)
+                img , resp= m.HoughCir()
+                if resp != "success":
+                     QMessageBox.about(self, "Exception", 
+                             resp)
+                else:
+                    self.mat = img
+                    print(img.shape)
+                    width , height , byteValue = img.shape
+                    imag = QImage(img, width, height, byteValue *
+                                            width, QImage.Format_RGB888)
+                    self.image = QPixmap(imag) 
+                    self.setPixmap(QPixmap().fromImage(imag)) 
+
+        else:
+            pass 
+
 
     def dilatation(self):
         if self.image != NULL:
@@ -612,8 +825,8 @@ class imageLabel(QLabel):
             self.setPixmap(rotated.scaled(self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation))
             self.repaint() # repaint the child widget
         else:
-            # No image to rotate
-            pass
+            QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
 
     def flipImage(self, axis):
         """
@@ -638,7 +851,9 @@ class imageLabel(QLabel):
             self.repaint()
         else:
             # No image to flip
-            pass
+            QMessageBox.about(self, "Exception", 
+                             "aucune image n'est inserer ")
+
 
     def convertToGray(self):
         """Convert image to grayscale."""
@@ -852,6 +1067,11 @@ class PhotoEditorGUI(QMainWindow):
         self.revert_act.triggered.connect(self.image_label.revertToOriginal)
         self.revert_act.setEnabled(False)
 
+
+        self.clear = QAction("Clear", self)
+        self.clear.triggered.connect(self.image_label.clearImage)
+        self.clear.setEnabled(False)
+
         # Actions for Tools menu
         self.crop_act = QAction(QIcon(os.path.join(icon_path, "crop.png")), "Crop", self)
         self.crop_act.setShortcut('Shift+X')
@@ -876,7 +1096,7 @@ class PhotoEditorGUI(QMainWindow):
         self.etirement_act = QAction(QIcon(os.path.join(icon_path, "resize.png")), "etirement", self)
         self.etirement_act.triggered.connect(self.image_label.etir)
         
-        self.binLocal_act = QAction(QIcon(os.path.join(icon_path, "resize.png")), "binarisation local", self)
+        self.binLocal_act = QAction(QIcon(os.path.join(icon_path, "resize.png")), "binarisation fixé", self)
         self.binLocal_act.triggered.connect(self.image_label.BinarisationLocal)
 
         self.binOtsu_act = QAction(QIcon(os.path.join(icon_path, "resize.png")), "binarisation Otsu", self)
@@ -908,6 +1128,26 @@ class PhotoEditorGUI(QMainWindow):
 
         self.sobel = QAction(QIcon(os.path.join(icon_path, "resize.png")), "Sobel", self)
         self.sobel.triggered.connect(self.image_label.Sobel)
+
+        self.robert = QAction(QIcon(os.path.join(icon_path, "resize.png")), "Robert", self)
+        self.robert.triggered.connect(self.image_label.Robert)
+
+        self.km = QAction(QIcon(os.path.join(icon_path, "resize.png")), "Kmeans", self)
+        self.km.triggered.connect(self.image_label.Kmeans)
+
+        self.grow= QAction(QIcon(os.path.join(icon_path, "resize.png")), "Croissance des régions", self)
+        self.grow.triggered.connect(self.image_label.GrowingReg)
+
+        self.partS= QAction(QIcon(os.path.join(icon_path, "resize.png")), "partition par région", self)
+        self.partS.triggered.connect(self.image_label.PartitionS)
+
+        self.hough= QAction(QIcon(os.path.join(icon_path, "resize.png")), "Hough lines ", self)
+        self.hough.triggered.connect(self.image_label.Houg)
+
+        self.houghCir= QAction(QIcon(os.path.join(icon_path, "resize.png")), "Hough circles ", self)
+        self.houghCir.triggered.connect(self.image_label.HoughC)
+
+
 
         self.erosion =  QAction(QIcon(os.path.join(icon_path, "resize.png")), "Erosion", self)
         self.erosion.triggered.connect(self.image_label.Erosion)
@@ -977,11 +1217,13 @@ class PhotoEditorGUI(QMainWindow):
 
         edit_menu = menu_bar.addMenu('Edit')
         edit_menu.addAction(self.revert_act)
+        edit_menu.addAction(self.clear)
         
 
         tool_menu = menu_bar.addMenu('Tools')
         tool_menu.addAction(self.crop_act)
         tool_menu.addAction(self.resize_act)
+        
         analyse_elementaire= tool_menu.addMenu("analyse elemntaire")
         analyse_elementaire.addAction(self.negatif_act)
         analyse_elementaire.addAction(self.histo_act)
@@ -996,6 +1238,16 @@ class PhotoEditorGUI(QMainWindow):
         contour.addAction(self.lap)
         contour.addAction(self.grad)
         contour.addAction(self.sobel)
+        contour.addAction(self.robert)
+
+        contour= tool_menu.addMenu("segmentation")
+        contour.addAction(self.km)
+        contour.addAction(self.grow)
+        contour.addAction(self.partS)
+
+        Hough= tool_menu.addMenu("Hough")
+        Hough.addAction(self.hough)
+        Hough.addAction(self.houghCir)
 
         morphologie = tool_menu.addMenu("morphologie")
         morphologie.addAction(self.erosion)
@@ -1066,6 +1318,9 @@ class PhotoEditorGUI(QMainWindow):
         convert_to_grayscale.setIcon(QIcon(os.path.join(icon_path, "grayscale.png")))
         convert_to_grayscale.clicked.connect(self.image_label.convertToGray)
 
+
+        
+
         convert_to_RGB = QToolButton()
         convert_to_RGB.setIcon(QIcon(os.path.join(icon_path, "rgb.png")))
         convert_to_RGB.clicked.connect(self.image_label.convertToRGB)
@@ -1078,14 +1333,15 @@ class PhotoEditorGUI(QMainWindow):
         change_hue.setIcon(QIcon(os.path.join(icon_path, "")))
         change_hue.clicked.connect(self.image_label.changeHue)
 
-        brightness_label = QLabel("Brightness")
+        brightness_label = QLabel("Eclairssisent")
         self.brightness_slider = QSlider(Qt.Horizontal)
         self.brightness_slider.setRange(-255, 255)
         self.brightness_slider.setTickInterval(35)
         self.brightness_slider.setTickPosition(QSlider.TicksAbove)
+        
         self.brightness_slider.valueChanged.connect(self.image_label.changeBrighteness)
 
-        contrast_label = QLabel("Contrast")
+        contrast_label = QLabel("Contraste")
         self.contrast_slider = QSlider(Qt.Horizontal)
         self.contrast_slider.setRange(-255, 255)
         self.contrast_slider.setTickInterval(35)
@@ -1103,10 +1359,15 @@ class PhotoEditorGUI(QMainWindow):
         editing_grid.addWidget(self.brightness_slider, 4, 0, 1, 0)
         editing_grid.addWidget(contrast_label, 5, 0)
         editing_grid.addWidget(self.contrast_slider, 6, 0, 1, 0)
+        
+
         editing_grid.setRowStretch(7, 10)
+        
 
         container = QWidget()
         container.setLayout(editing_grid)
+
+        
 
         self.editing_bar.setWidget(container)
 
@@ -1138,6 +1399,7 @@ class PhotoEditorGUI(QMainWindow):
         is loaded."""
         self.save_act.setEnabled(True)
         self.revert_act.setEnabled(True)
+        self.clear.setEnabled(True)
         self.zoom_in_act.setEnabled(True)
         self.zoom_out_act.setEnabled(True)
         self.normal_size_Act.setEnabled(True)
